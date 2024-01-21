@@ -1,6 +1,9 @@
 import './App.css';
-import Chat from './pages/chat';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './index.css';
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Chats from './pages/chat/Chats';
+import NewChat from './pages/chat/Newchat';
 
 function App() {
   return (
@@ -9,7 +12,8 @@ function App() {
         <Routes>
           {/* <Route path="/chats" element={<Chat />} />
            */}
-          <Route path="/chats" element={<Chat chatId={1} />} />
+          <Route path="/chats" element={<Chats />} />
+          <Route path="/newchat" element={<NewChat />} />
         </Routes>
       </Router>
     </div>
