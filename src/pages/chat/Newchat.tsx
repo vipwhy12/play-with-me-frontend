@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewChat: React.FC = () => {
-  const [gamename, setGamename] = useState('');
+  const [gameName, setGameName] = useState('');
   const [gameDescription, setGameDescription] = useState('');
-  const [chatname, setChatname] = useState('');
+  const [chatName, setChatName] = useState('');
   const [numberOfChat, setNumberOfChat] = useState('');
+  const navigate = useNavigate();
 
-  const getGamename = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setGamename(event.target.value);
+  const getGameName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGameName(event.target.value);
   };
 
   const getGameDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -20,16 +22,17 @@ const NewChat: React.FC = () => {
       setGameDescription(newText);
     }
   };
-  const getChatname = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChatname(event.target.value);
+
+  const getChatName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChatName(event.target.value);
   };
 
   const getNumberOfChat = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNumberOfChat(event.target.value);
   };
 
-  function handleSubmit() {
-    if (!chatname) {
+  function handleSubmit(event: React.FormEvent) {
+    if (!chatName) {
       alert('🚨채팅방 이름을 작성해주세요🚨');
       return;
     }
@@ -43,19 +46,20 @@ const NewChat: React.FC = () => {
       .post(
         `${process.env.REACT_APP_BACK_ORIGIN}/chats`,
         {
-          gamename,
+          userIds: [3], //TODO : 로그인 시 , 회원 정보 ID 전송
+          gameName,
           gameDescription,
-          chatname,
-          numberOfChat,
+          chatName,
+          numberOfChat: Number(numberOfChat),
         },
         { withCredentials: true }
       )
       .then((response) => {
         alert('채팅방 생성완료!');
-        //TODO : 채팅방으로 이동하기
+
+        navigate('/chat', { state: { chatData: response.data } });
       })
       .catch((error) => {
-        console.error(error);
         alert('채팅방 생성에 실패하였습니다!');
       });
   }
@@ -109,8 +113,8 @@ const NewChat: React.FC = () => {
                     name="chatname"
                     id="chatname"
                     autoComplete="chatname"
-                    value={chatname}
-                    onChange={getChatname}
+                    value={chatName}
+                    onChange={getChatName}
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="채팅방 이름을 입력해주세요!"
                   />
@@ -130,10 +134,11 @@ const NewChat: React.FC = () => {
                   id="gamename"
                   name="gamename"
                   autoComplete="game-name"
-                  value={gamename}
-                  onChange={getGamename}
+                  value={gameName}
+                  onChange={getGameName}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
+                  <option>선택하기</option>
                   <option>몬스터헌터</option>
                   <option>리그오브레전드</option>
                   <option>오버워치2</option>
@@ -197,7 +202,7 @@ const NewChat: React.FC = () => {
           Cancel
         </button>
         <button
-          type="submit"
+          type="button"
           onClick={handleSubmit}
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
