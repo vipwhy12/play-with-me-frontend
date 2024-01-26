@@ -1,35 +1,58 @@
-import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import { useLocation } from "react-router-dom";
+import { PaperClipIcon } from "@heroicons/react/20/solid";
 
 const Chat: React.FC = () => {
-  const [socket, setSocket] = useState('');
+  const [socket, setSocket] = useState("");
   const location = useLocation();
   const chatData = { ...location.state };
 
-  useEffect(() => {
-    //컴포넌트가 마운트 될 때만 소켓을 생성하기
-    const socket = io('ws://localhost:81/socket', {
-      transports: ['websocket'],
-    });
-
-    console.log(socket);
-    // 컴포넌트가 언마운트될 때 소켓 연결 해제
-    return () => {
-      socket.disconnect();
-      alert('소켓 연결을 해제합니다.');
-    };
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div>
-      <h1> 채팅방 페이지 입니다.</h1>
-      {chatData && (
-        <div>
-          <p>채팅방 이름: {chatData.chatName}</p>
-          {/* 다른 데이터도 여기서 렌더링 */}
-        </div>
-      )}
+      <div className="px-4 sm:px-0">
+        <h3 className="text-base font-semibold leading-7 text-gray-900">
+          Chat Information
+        </h3>
+      </div>
+      <div className="mt-6 border-t border-gray-100">
+        <dl className="divide-y divide-gray-100">
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
+              채팅방 이름
+            </dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {chatData.chatName}
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
+              게임이름
+            </dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {chatData.gameName}
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
+              gameDescription
+            </dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {chatData.gameDescription}
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
+              채팅방 정원
+            </dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {chatData.numberOfChat}
+            </dd>
+          </div>
+        </dl>
+      </div>
     </div>
   );
 };
