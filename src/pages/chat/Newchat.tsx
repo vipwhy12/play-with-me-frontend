@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { PhotoIcon } from '@heroicons/react/24/solid';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { PhotoIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const NewChat: React.FC = () => {
-  const [gameName, setGameName] = useState('');
-  const [gameDescription, setGameDescription] = useState('');
-  const [chatName, setChatName] = useState('');
-  const [numberOfChat, setNumberOfChat] = useState('');
+  const [gameName, setGameName] = useState("");
+  const [gameDescription, setGameDescription] = useState("");
+  const [chatName, setChatName] = useState("");
+  const [numberOfChat, setNumberOfChat] = useState("");
   const navigate = useNavigate();
 
   const getGameName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGameName(event.target.value);
   };
 
-  const getGameDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const getGameDescription = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const maxLength = 200;
     const newText = event.target.value;
 
@@ -33,12 +35,12 @@ const NewChat: React.FC = () => {
 
   function handleSubmit(event: React.FormEvent) {
     if (!chatName) {
-      alert('🚨채팅방 이름을 작성해주세요🚨');
+      alert("🚨채팅방 이름을 작성해주세요🚨");
       return;
     }
 
     if (Number(numberOfChat) < 1) {
-      alert('🚨채팅방의 인원수는 1명 이상이여야 합니다.🚨');
+      alert("🚨채팅방의 인원수는 1명 이상이여야 합니다.🚨");
       return;
     }
 
@@ -55,12 +57,12 @@ const NewChat: React.FC = () => {
         { withCredentials: true }
       )
       .then((response) => {
-        alert('채팅방 생성완료!');
+        alert("채팅방 생성완료!");
 
-        navigate('/chat', { state: { chatData: response.data } });
+        navigate("/chat", { state: response.data });
       })
       .catch((error) => {
-        alert('채팅방 생성에 실패하였습니다!');
+        alert("채팅방 생성에 실패하였습니다!");
       });
   }
 
@@ -68,7 +70,9 @@ const NewChat: React.FC = () => {
     <form>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">채팅방 만들기</h2>
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+            채팅방 만들기
+          </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             ✨같이 게임할 팀원들을 만들어보세요!✨
           </p>
@@ -82,18 +86,28 @@ const NewChat: React.FC = () => {
             </label>
             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
               <div className="text-center">
-                <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                <PhotoIcon
+                  className="mx-auto h-12 w-12 text-gray-300"
+                  aria-hidden="true"
+                />
                 <div className="mt-4 flex text-sm leading-6 text-gray-600">
                   <label
                     htmlFor="file-upload"
                     className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                   >
                     <span>Upload a file</span>
-                    <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      className="sr-only"
+                    />
                   </label>
                   <p className="pl-1">or drag and drop</p>
                 </div>
-                <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                <p className="text-xs leading-5 text-gray-600">
+                  PNG, JPG, GIF up to 10MB
+                </p>
               </div>
             </div>
           </div>
@@ -162,7 +176,7 @@ const NewChat: React.FC = () => {
                   placeholder="최대 200자까지 입력 가능합니다."
                   rows={3}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue={''}
+                  defaultValue={""}
                 />
               </div>
             </div>
@@ -170,7 +184,9 @@ const NewChat: React.FC = () => {
         </div>
 
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">채팅 참여 조건</h2>
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+            채팅 참여 조건
+          </h2>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="col-span-full">
@@ -198,7 +214,10 @@ const NewChat: React.FC = () => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+        <button
+          type="button"
+          className="text-sm font-semibold leading-6 text-gray-900"
+        >
           Cancel
         </button>
         <button
